@@ -8,8 +8,13 @@ from .models import Supers
 @api_view(['GET', 'POST'])
 def supers_list(request):
     if request.method == 'GET':
-        supers = Supers.objects.all()
-        serializer = SupersSerializer(supers, many=True)
+
+        super_type = request.query_params.get('type')
+        print(super_type)
+
+        queryset = Supers.objects.all()
+
+        serializer = SupersSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == "POST":
         serializer = SupersSerializer(data=request.data)
@@ -31,4 +36,3 @@ def super_detail(request, pk):
     elif request.method == 'DELETE':
         super.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-        

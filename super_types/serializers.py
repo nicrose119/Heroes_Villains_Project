@@ -5,3 +5,4 @@ class Super_TypesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Super_Types
         fields =['id', 'type']
+       
