@@ -10,9 +10,18 @@ def supers_list(request):
         supers = Supers.objects.all()
         serializer = SupersSerializer(supers, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
     elif request.method == "POST":
         serializer = SupersSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['GET'])
+def super_detail(request, pk):
+    try:
+        super = Supers.objects.get(pk=pk)
+        serializer = SupersSerializer(super)
+        return Response(serializer.data)
+    except Supers.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(pk)
